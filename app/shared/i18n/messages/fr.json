@@ -1,0 +1,33 @@
+{
+    "common": {
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "back": "Retour",
+        "next": "Suivant",
+        "retry": "Réessayer",
+        "saving": "Enregistrement…",
+        "toggle": "Basculer",
+        "close": "Fermer",
+        "no_results": "Aucun résultat"
+    },
+    "navigation": {
+        "home": "Accueil",
+        "contact": "Contact",
+        "about_us": "À propos",
+        "open_menu": "Ouvrir le menu",
+        "search": "Rechercher",
+        "menu": "Menu",
+        "profile": "Profil",
+        "login": "Connexion",
+        "register": "S’inscrire"
+    },
+    "pagination": {
+        "previous": "← Précédent",
+        "next": "Suivant →",
+        "page": "Page {{page}} / {{total}}"
+    },
+    "languages": {
+        "fr": "Français",
+        "en": "Anglais"
+    }
+}

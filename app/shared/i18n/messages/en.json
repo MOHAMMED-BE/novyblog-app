@@ -1,0 +1,33 @@
+{
+    "common": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "back": "Back",
+        "next": "Next",
+        "retry": "Try again",
+        "saving": "Saving…",
+        "toggle": "Toggle",
+        "close": "Close",
+        "no_results": "No results"
+    },
+    "navigation": {
+        "home": "Home",
+        "contact": "Contact",
+        "about_us": "About Us",
+        "open_menu": "Open menu",
+        "search": "Search",
+        "menu": "Menu",
+        "profile": "Profile",
+        "login": "Login",
+        "register": "Register"
+    },
+    "pagination": {
+        "previous": "← Previous",
+        "next": "Next →",
+        "page": "Page {{page}} / {{total}}"
+    },
+    "languages": {
+        "fr": "French",
+        "en": "English"
+    }
+}
