@@ -7,7 +7,7 @@ import { useCategories } from '@/features/categories/hooks/useCategories';
 import { CategoryTile, type Category } from './CategoryTile';
 import { SectionHeader } from '@/components/home/SectionHeader';
 import { LinkBehavior } from '@/components/home/HomeLinkBehavior';
-import { EmblaCarousel } from 'shared/ui/EmblaCarousel';
+import { EmblaCarousel } from '@/shared/ui/EmblaCarousel';
 
 const categoriesEmblaOptions: EmblaOptionsType = {
     loop: true,

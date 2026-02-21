@@ -29,7 +29,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { env } from '@/configs/env';
 
-import type { Article } from 'types/article';
+import type { Article } from '@/types/article';
 import { useCreateArticle, useUpdateArticle } from '@/features/author/hooks/useAuthor';
 import { useCategories } from '@/features/categories/hooks/useCategories';
 

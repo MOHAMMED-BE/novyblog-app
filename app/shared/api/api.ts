@@ -1,4 +1,4 @@
-import { decrypt } from 'shared/utils/storage/crypter';
+import { decrypt } from '@/shared/utils/storage/crypter';
 import { createApi } from './createApi';
 import { AUTH_KEYS } from '@/shared/constants/authKeys';
 import { env } from '@/configs/env';

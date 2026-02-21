@@ -23,7 +23,7 @@ import TitleIcon from '@mui/icons-material/Title';
 import SearchIcon from '@mui/icons-material/Search';
 import CategoryIcon from '@mui/icons-material/Category';
 
-import { ArticleFilters } from 'types/article';
+import { ArticleFilters } from '@/types/article';
 import { useCategories } from '@/features/categories/hooks/useCategories';
 
 type Props = {

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Box, ButtonBase, Paper, Typography } from '@mui/material';
-import { LinkBehavior } from '../../../components/home/HomeLinkBehavior';
+import { LinkBehavior } from '@/components/home/HomeLinkBehavior';
 import { useArticlesNavStore } from '@/features/articles/stores/articlesNav.store';
 
 export type Category = {

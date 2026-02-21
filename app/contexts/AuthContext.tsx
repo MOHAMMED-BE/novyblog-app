@@ -2,8 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useApi } from '@mbs-dev/api-request';
 import api from '@/shared/api/api';
 import { AUTH_KEYS } from '@/shared/constants/authKeys';
-import { decrypt, encrypt } from 'shared/utils/storage/crypter';
-import { toast } from 'sonner';
+import { decrypt, encrypt } from '@/shared/utils/storage/crypter';
 import { User, UserRole } from '@/types/auth';
 
 export interface LoginResponse {
@@ -126,8 +125,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             if (!data?.accessToken) {
                 throw new Error('tokens is missing');
             }
-
-            toast.success('success');
 
             await setToken(data.accessToken);
 

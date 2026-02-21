@@ -21,17 +21,16 @@ const emptyPage = <T,>(size: number): PageResponse<T> => ({
     totalPages: 0,
 });
 
-export function useAuthorArticles(query: AuthorArticlesQuery, authorId?: number) {
+export function useAuthorArticles(query: AuthorArticlesQuery) {
     const { apiCall } = useApi(api);
     const size = query.size ?? 200;
     const sort = query.sort ?? 'createdAt,desc';
 
     return useQuery<PageResponse<Article>, Error>({
-        queryKey: ['author-articles', { ...query, authorId }],
-        enabled: !!authorId,
+        queryKey: ['author-articles', { ...query }],
         queryFn: async () => {
             const res = await apiCall({
-                url: '/articles',
+                url: '/me/articles',
                 method: 'GET',
                 requiresAuth: true,
                 params: {
@@ -42,22 +41,7 @@ export function useAuthorArticles(query: AuthorArticlesQuery, authorId?: number)
                 },
             });
 
-            const data = (res?.data as PageResponse<Article> | undefined) ?? emptyPage<Article>(size);
-
-            const filtered = (data.content || []).filter((a) => a.authorId === authorId);
-
-            return {
-                ...data,
-                content: filtered,
-                numberOfElements: filtered.length,
-                totalElements: filtered.length,
-                totalPages: 1,
-                first: true,
-                last: true,
-                empty: filtered.length === 0,
-                number: 0,
-                size,
-            };
+            return (res?.data as PageResponse<Article> | undefined) ?? emptyPage<Article>(size);
         },
         staleTime: 20 * 1000,
         gcTime: 5 * 60 * 1000,

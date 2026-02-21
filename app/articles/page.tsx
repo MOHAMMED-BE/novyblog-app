@@ -6,8 +6,8 @@ import { Container, Stack, Typography, Grid, Skeleton, Alert, Box, Divider } fro
 import { ArticleCard } from '@/features/articles/components/ArticleCard';
 import { FilterPanel } from '@/features/articles/components/FilterPanel';
 import { useArticles } from '@/features/articles/hooks/useArticles';
-import { PaginationBar } from 'shared/ui/PaginationBar';
-import { useDebounce } from 'shared/hooks/useDebounce';
+import { PaginationBar } from '@/shared/ui/PaginationBar';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 import { ArticleFilters } from '@/types/article';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useArticlesNavStore } from '@/features/articles/stores/articlesNav.store';

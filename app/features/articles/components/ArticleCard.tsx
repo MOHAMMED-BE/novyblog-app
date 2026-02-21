@@ -11,7 +11,7 @@ import {
     Box,
     CardActionArea,
 } from '@mui/material';
-import { Article } from 'types/article';
+import { Article } from '@/types/article';
 import { env } from '@/configs/env';
 
 function stripHtml(html: unknown) {

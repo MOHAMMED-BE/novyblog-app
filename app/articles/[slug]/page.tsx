@@ -178,7 +178,7 @@ export default function ArticleDetailsPage() {
                                     sx={{
                                         width: '100%',
                                         height: 320,
-                                        objectFit: 'cover',
+                                        objectFit: 'contain',
                                         display: 'block'
                                     }}
                                 />

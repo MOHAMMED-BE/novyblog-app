@@ -20,19 +20,15 @@
       }
     ],
     "paths": {
-      "@/i18n/*": ["i18n/*"],
-      "@/providers/*": ["providers/*"],
-      "@/features/*": ["features/*"],
-      "@/stores/*": ["stores/*"],
-      "@/configs/*": ["configs/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/contexts/*": ["contexts/*"],
       "@/components/*": ["components/*"],
-      "@/layouts/*": ["layouts/*"],
-      "@/constants/*": ["constants/*"],
-      "@/validation/*": ["validation/*"],
-      "@/auth/*": ["auth/*"],
+      "@/configs/*": ["configs/*"],
+      "@/contexts/*": ["contexts/*"],
+      "@/features/*": ["features/*"],
+      "@/providers/*": ["providers/*"],
       "@/types/*": ["types/*"],
+      "@/validation/*": ["validation/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/auth/*": ["auth/*"],
       "@/shared/*": ["shared/*"],
       "@/api/*": ["api/*"]
     }

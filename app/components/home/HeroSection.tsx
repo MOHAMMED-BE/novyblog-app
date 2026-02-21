@@ -6,7 +6,7 @@ import type { EmblaOptionsType } from 'embla-carousel';
 import { LinkBehavior } from '@/components/home/HomeLinkBehavior';
 import { EmblaCarousel } from '@/shared/ui/EmblaCarousel';
 import { useArticles } from '@/features/articles/hooks/useArticles';
-import type { Article } from 'types/article';
+import type { Article } from '@/types/article';
 import { env } from '@/configs/env';
 
 const heroEmblaOptions: EmblaOptionsType = { loop: true, align: 'start' };

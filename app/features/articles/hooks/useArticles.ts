@@ -1,7 +1,7 @@
 import api from '@/shared/api/api';
 import { useApi } from '@mbs-dev/api-request';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Article, ArticleFilters, PageResponse } from 'types/article';
+import { Article, ArticleFilters, PageResponse } from '@/types/article';
 
 const emptyPage = <T,>(size: number): PageResponse<T> => ({
     content: [],

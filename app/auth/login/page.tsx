@@ -20,8 +20,9 @@ import {
 } from '@mui/material';
 
 import { useAuthContext } from '@/contexts/AuthContext';
-import { LoginPayload } from 'types/auth';
+import { LoginPayload } from '@/types/auth';
 import { loginSchema } from 'validation/authSchema';
+import Image from 'next/image';
 
 export const InitLogin: LoginPayload = {
     email: 'novy.dev@novi.io',
@@ -81,7 +82,7 @@ export default function Login() {
     return (
         <Box
             sx={{
-                minHeight: '100svh',
+                minHeight: '80svh',
                 display: 'grid',
                 placeItems: 'center',
                 background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 45%, #f8fafc 100%)',
@@ -93,24 +94,14 @@ export default function Login() {
                 <Stack spacing={3} alignItems="center">
                     {/* Header */}
                     <Stack spacing={1} alignItems="center" textAlign="center">
-                        <Box
-                            sx={{
-                                width: 48,
-                                height: 48,
-                                borderRadius: 3,
-                                bgcolor: 'grey.900',
-                                color: 'common.white',
-                                display: 'grid',
-                                placeItems: 'center',
-                                boxShadow: 1,
-                                fontWeight: 700,
-                            }}
-                        >
-                            NV
-                        </Box>
-                        <Typography variant="h4" sx={{ fontWeight: 700, letterSpacing: -0.5 }}>
-                            Sign in
-                        </Typography>
+                        <Image
+                            src="/media/logo.png"
+                            alt="Logo"
+                            width={110}
+                            height={60}
+                            priority
+                            style={{ objectFit: "contain" }}
+                        />
                         <Typography variant="body2" color="text.secondary">
                             Enter your email and password to continue.
                         </Typography>

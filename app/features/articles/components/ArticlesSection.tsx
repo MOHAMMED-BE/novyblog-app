@@ -3,13 +3,12 @@
 import * as React from 'react';
 import { Alert, Box, Button, Skeleton, Stack } from '@mui/material';
 import type { EmblaOptionsType } from 'embla-carousel';
-
 import { useArticles } from '@/features/articles/hooks/useArticles';
 import { ArticleCard } from '@/features/articles/components/ArticleCard';
 import type { Article } from '@/types/article';
 import { SectionHeader } from '@/components/home/SectionHeader';
 import { LinkBehavior } from '@/components/home/HomeLinkBehavior';
-import { EmblaCarousel } from 'shared/ui/EmblaCarousel';
+import { EmblaCarousel } from '@/shared/ui/EmblaCarousel';
 
 const articlesEmblaOptions: EmblaOptionsType = { loop: false, align: 'start' };
 
