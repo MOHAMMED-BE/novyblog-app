@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -20,33 +21,31 @@ import {
     TablePagination,
     CircularProgress,
 } from '@mui/material';
-
-import { useMemo, useState } from 'react';
-import { useAuthContext } from '@/contexts/AuthContext';
 import { useAuthorArticles, useDeleteArticle } from '@/features/author/hooks/useAuthor';
+import { useDebounce } from '@/shared/hooks/useDebounce';
+import type { Article } from '@/types/article';
 import { toast } from 'sonner';
 import { env } from '@/configs/env';
 
 export default function AuthorArticlesPage() {
-    const { user } = useAuthContext();
-
     const [q, setQ] = useState('');
+    const debouncedQ = useDebounce(q, 800);
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
-    const { data, isLoading, isError, error, refetch, isFetching } = useAuthorArticles(
-        { q, size: 200, sort: 'createdAt,desc' },
-        user?.id
-    );
+    const { data, isLoading, isError, error, refetch, isFetching } = useAuthorArticles({
+        q: debouncedQ,
+        size: 200,
+        sort: 'createdAt,desc',
+    });
 
     const del = useDeleteArticle();
 
-    const rows = data?.content ?? [];
+    const rows: Article[] = data?.content ?? [];
 
-    const paged = useMemo(() => {
-        const start = page * rowsPerPage;
-        return rows.slice(start, start + rowsPerPage);
-    }, [rows, page, rowsPerPage]);
+    const start = page * rowsPerPage;
+    const paged = rows.slice(start, start + rowsPerPage);
 
     const total = rows.length;
 
@@ -54,10 +53,13 @@ export default function AuthorArticlesPage() {
         try {
             await del.mutateAsync(id);
             toast.success('Article deleted');
-        } catch (e: any) {
-            toast.error(e?.message || 'Delete failed');
+        } catch (e: unknown) {
+            const message = e instanceof Error ? e.message : 'Delete failed';
+            toast.error(message);
         }
     };
+
+    const isTyping = q !== debouncedQ;
 
     return (
         <Stack spacing={2.5}>
@@ -97,10 +99,18 @@ export default function AuthorArticlesPage() {
                         placeholder="Search by title…"
                         size="small"
                         sx={{ width: { xs: '100%', sm: 360 } }}
+                        inputProps={{ 'aria-label': 'Search articles by title' }}
                     />
 
                     <Stack direction="row" spacing={1} alignItems="center">
-                        {isFetching && !isLoading ? (
+                        {isTyping ? (
+                            <Stack direction="row" spacing={1} alignItems="center">
+                                <CircularProgress size={16} />
+                                <Typography variant="body2" color="text.secondary">
+                                    Typing…
+                                </Typography>
+                            </Stack>
+                        ) : isFetching && !isLoading ? (
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <CircularProgress size={16} />
                                 <Typography variant="body2" color="text.secondary">
@@ -109,7 +119,7 @@ export default function AuthorArticlesPage() {
                             </Stack>
                         ) : null}
 
-                        <Button variant="text" onClick={() => refetch()}>
+                        <Button variant="text" onClick={() => refetch()} disabled={isTyping}>
                             Refresh
                         </Button>
                     </Stack>
@@ -134,9 +144,7 @@ export default function AuthorArticlesPage() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                {/* ✅ New Thumbnail column */}
                                 <TableCell sx={{ fontWeight: 950, width: 92 }}>Thumb</TableCell>
-
                                 <TableCell sx={{ fontWeight: 950 }}>Title</TableCell>
                                 <TableCell sx={{ fontWeight: 950 }} align="center">
                                     Status
@@ -174,85 +182,87 @@ export default function AuthorArticlesPage() {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                paged.map((a: any) => {
-                                    return (
-                                        <TableRow key={a.id} hover>
-                                            {/* ✅ Thumbnail cell */}
-                                            <TableCell>
-                                                <Box
-                                                    sx={{
-                                                        width: 64,
-                                                        height: 44,
-                                                        borderRadius: 2,
-                                                        overflow: 'hidden',
-                                                        border: '1px solid',
-                                                        borderColor: 'divider',
-                                                        bgcolor: 'action.hover',
-                                                        position: 'relative',
-                                                    }}
+                                paged.map((a) => (
+                                    <TableRow key={a.id} hover>
+                                        <TableCell>
+                                            <Box
+                                                sx={{
+                                                    width: 64,
+                                                    height: 44,
+                                                    borderRadius: 2,
+                                                    overflow: 'hidden',
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    bgcolor: 'action.hover',
+                                                    position: 'relative',
+                                                }}
+                                            >
+                                                {a.thumbnailUrl ? (
+                                                    <Image
+                                                        src={`${env.uploadUrl}${a.thumbnailUrl}`}
+                                                        alt={`${a.title} thumbnail`}
+                                                        fill
+                                                        sizes="64px"
+                                                        style={{ objectFit: 'cover' }}
+                                                        priority={false}
+                                                        unoptimized
+                                                    />
+                                                ) : (
+                                                    <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>
+                                                        <Typography variant="caption" color="text.secondary">
+                                                            —
+                                                        </Typography>
+                                                    </Box>
+                                                )}
+                                            </Box>
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Typography fontWeight={900} sx={{ lineHeight: 1.2 }}>
+                                                {a.title}
+                                            </Typography>
+                                            {a.excerpt ? (
+                                                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>
+                                                    {String(a.excerpt).slice(0, 80)}
+                                                    {String(a.excerpt).length > 80 ? '…' : ''}
+                                                </Typography>
+                                            ) : null}
+                                        </TableCell>
+
+                                        <TableCell align="center">
+                                            <Chip size="small" label={a.status} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {a.slug}
+                                            </Typography>
+                                        </TableCell>
+
+                                        <TableCell align="right">
+                                            <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
+                                                <Button
+                                                    component={Link}
+                                                    href={`/author/articles/${a.id}/edit`}
+                                                    variant="outlined"
+                                                    size="small"
                                                 >
-                                                    {a?.thumbnailUrl ? (
-                                                        <Image
-                                                            src={`${env.uploadUrl}${a?.thumbnailUrl}`}
-                                                            alt={`${a.title} thumbnail`}
-                                                            fill
-                                                            sizes="64px"
-                                                            style={{ objectFit: 'cover' }}
-                                                            priority={false}
-                                                            unoptimized
-                                                        />
-                                                    ) : (
-                                                        <Box sx={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>
-                                                            <Typography variant="caption" color="text.secondary">
-                                                                —
-                                                            </Typography>
-                                                        </Box>
-                                                    )}
-                                                </Box>
-                                            </TableCell>
+                                                    Edit
+                                                </Button>
 
-                                            <TableCell>
-                                                <Typography fontWeight={900} sx={{ lineHeight: 1.2 }}>
-                                                    {a.title}
-                                                </Typography>
-                                                {a.excerpt ? (
-                                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>
-                                                        {String(a.excerpt).slice(0, 80)}
-                                                        {String(a.excerpt).length > 80 ? '…' : ''}
-                                                    </Typography>
-                                                ) : null}
-                                            </TableCell>
-
-                                            <TableCell align="center">
-                                                <Chip size="small" label={a.status} />
-                                            </TableCell>
-
-                                            <TableCell>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {a.slug}
-                                                </Typography>
-                                            </TableCell>
-
-                                            <TableCell align="right">
-                                                <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                                                    <Button component={Link} href={`/author/articles/${a.id}/edit`} variant="outlined" size="small">
-                                                        Edit
-                                                    </Button>
-
-                                                    <Button
-                                                        variant="text"
-                                                        color="error"
-                                                        size="small"
-                                                        disabled={del.isPending}
-                                                        onClick={() => onDelete(a.id)}
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </Stack>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })
+                                                <Button
+                                                    variant="text"
+                                                    color="error"
+                                                    size="small"
+                                                    disabled={del.isPending}
+                                                    onClick={() => onDelete(a.id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </Stack>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
                             )}
                         </TableBody>
                     </Table>
