@@ -22,7 +22,7 @@ export const ToastProvider: React.FC<Props> = ({
 
     useEffect(() => setMounted(true), []);
 
-    if (!mounted) return null; // ✅ prevents SSR/client mismatch
+    if (!mounted) return null; //prevents SSR/client mismatch
 
     return (
         <Toaster

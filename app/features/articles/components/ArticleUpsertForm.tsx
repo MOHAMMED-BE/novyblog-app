@@ -282,7 +282,7 @@ export default function ArticleUpsertForm({ mode, article }: Props) {
                                     )}
                                 />
 
-                                {/* ✅ Category select */}
+                                {/*Category select */}
                                 <Controller
                                     control={control}
                                     name="categoryId"

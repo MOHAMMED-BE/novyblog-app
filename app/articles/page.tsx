@@ -9,7 +9,6 @@ import { useArticles } from '@/features/articles/hooks/useArticles';
 import { PaginationBar } from '@/shared/ui/PaginationBar';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import { ArticleFilters } from '@/types/article';
-import { useAuthContext } from '@/contexts/AuthContext';
 import { useArticlesNavStore } from '@/features/articles/stores/articlesNav.store';
 
 const PAGE_SIZE = 5;
@@ -19,9 +18,7 @@ export default function ArticlesPage() {
     const [appliedFilters, setAppliedFilters] = React.useState<ArticleFilters>({});
     const [selectedPage, setSelectedPage] = React.useState<number>(1);
     const debouncedDraftFilters = useDebounce(draftFilters, 800);
-    const { user } = useAuthContext();
 
-    // ✅ consume "navigation state" one time (clean URL)
     React.useEffect(() => {
         const pending = useArticlesNavStore.getState().consumePending();
         if (pending?.categoryName) {
@@ -68,11 +65,9 @@ export default function ArticlesPage() {
     React.useEffect(() => {
         setSelectedPage(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(appliedFilters)]);
 
     const handleApply = () => {
-        // still supported (optional), but filtering happens automatically via debounce
         setAppliedFilters(draftFilters);
     };
 
@@ -112,7 +107,7 @@ export default function ArticlesPage() {
                     </Typography>
                 </Stack>
 
-                {/* ✅ Left filters / Right content */}
+                {/*Left filters / Right content */}
                 <Grid container spacing={3} alignItems="flex-start">
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
                         <FilterPanel

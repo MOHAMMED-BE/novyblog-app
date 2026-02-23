@@ -77,7 +77,7 @@ export const useArticleBySlug = (slug?: string) => {
 };
 
 // ---------------------------
-// ✅ Comments (NEW)
+//Comments (NEW)
 // ---------------------------
 
 export type CommentStatus = 'VISIBLE' | 'HIDDEN' | 'DELETED';

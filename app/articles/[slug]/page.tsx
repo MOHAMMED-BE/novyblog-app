@@ -256,7 +256,7 @@ export default function ArticleDetailsPage() {
                                     )}
                                 </Stack>
 
-                                {/* ✅ extracted component */}
+                                {/*extracted component */}
                                 <CommentForm articleId={articleId} />
 
                                 {isCommentsError ? (

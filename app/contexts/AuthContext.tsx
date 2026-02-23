@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         clearAll();
     };
 
-    // ✅ Single hydration effect (deduped, no role gating)
+    //Single hydration effect (deduped, no role gating)
     useEffect(() => {
         let mounted = true;
 
